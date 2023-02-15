@@ -1,15 +1,15 @@
 version: '3.4'
 
 services:
-  app: 
-    build: .
-    command: npm run start
-    ports:
-      - '3000:3000'
-    volumes:
-      - .:/usr/app
-    depends_on:
-      - db
+  # app: 
+  #   build: .
+  #   command: npm run start
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - .:/usr/app
+  #   depends_on:
+  #     - db
   db:
     container_name: 'database-node'
     image: mysql:5.7.31
