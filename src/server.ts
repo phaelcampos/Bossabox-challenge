@@ -10,6 +10,7 @@ app.use( BodyParser.json() );
 
 app.use("/", userRouter);
 
+
 app.listen(port, ()=> {
     console.log(`[Server]: I am running at https://localhost:${port}`);
 });

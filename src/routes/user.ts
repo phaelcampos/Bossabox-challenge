@@ -9,9 +9,19 @@ const userRouter = Router();
 
 userRouter.post('/user',validator.body(userSchema), async (req, res) => { 
     const userBusiness = new UserBusiness();
-    const response = userBusiness.createUser(req.body);
-    res.statusCode = 200;
-    res.json(response)
+    const response = await userBusiness.createUser(req.body);
+    res.statusCode = response.statusCode;
+    res.json(response.message)
+    res.send()
+  });
+
+ userRouter.post('/login',validator.body(userSchema), async (req, res) => { 
+    const userBusiness = new UserBusiness();
+    const response = await userBusiness.login(req.body);
+    res.statusCode = response.statusCode;
+    res.json({
+      message: response.message ?? response.token
+    })
     res.send()
   });
 
