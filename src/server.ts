@@ -12,7 +12,7 @@ dotenv.config()
 AppDataSource.initialize().then(() =>{
 
         const app: Express = express();
-        const port = 3001;
+        const port = process.env.PORT;
         app.use( BodyParser.urlencoded( { extended: false } ) );
         app.use( BodyParser.json() );
         
