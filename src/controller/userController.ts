@@ -1,6 +1,6 @@
 import userInterface from '../interfaces/userInterface';
 import loginInterface from '../interfaces/loginInterface';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
 import { BadRequestError, UnauthorizedError } from '../helpers/apiErrors';
 import { userRepository } from '../repositories/userRepository';
@@ -19,6 +19,7 @@ export default class UserBusiness {
       if ( usernameExists ) throw new BadRequestError("Nome de usuário já cadastrado" );
 
       const hashPassword = await bcrypt.hash(user.password, 10);
+
       user.password = hashPassword;
 
       const userTocreate = userRepository.create(user);
@@ -38,7 +39,7 @@ export default class UserBusiness {
       if ( !userExists ) throw new BadRequestError("Usuário ou senha inválidos")
       login.id = userExists.id
       
-      const comparedPassword = await bcrypt.compare(login.password, userExists.password);
+      const comparedPassword = await bcrypt.compareSync(login.password, userExists.password);
       if ( !comparedPassword ) throw new BadRequestError("Usuário ou senha inválidos");
       
       const token = JWT.sign(login, process.env.SECRET ?? '' , { expiresIn: '5h' })
