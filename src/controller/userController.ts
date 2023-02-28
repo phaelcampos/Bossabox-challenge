@@ -2,7 +2,7 @@ import userInterface from '../interfaces/userInterface';
 import loginInterface from '../interfaces/loginInterface';
 import bcrypt from 'bcryptjs';
 import JWT from 'jsonwebtoken';
-import { BadRequestError, UnauthorizedError } from '../helpers/apiErrors';
+import { BadRequestError, ConflictError, UnauthorizedError } from '../helpers/apiErrors';
 import { userRepository } from '../repositories/userRepository';
 import { User } from '../entities/User';
 
@@ -11,12 +11,12 @@ export default class UserBusiness {
       const emailExists = await userRepository.findOneBy({
           email: user.email
       })
-      if ( emailExists ) throw new BadRequestError("E-mail já cadastrado");
+      if ( emailExists ) throw new ConflictError("E-mail já cadastrado");
 
       const usernameExists = await userRepository.findOneBy({
           username: user.username
       })
-      if ( usernameExists ) throw new BadRequestError("Nome de usuário já cadastrado" );
+      if ( usernameExists ) throw new ConflictError("Nome de usuário já cadastrado" );
 
       const hashPassword = await bcrypt.hash(user.password, 10);
 
