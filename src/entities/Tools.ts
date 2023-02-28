@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity('tools')
@@ -12,10 +12,10 @@ export class Tools {
     @Column({type: 'text'})
     description: string
 
-    @Column({type: 'text'})
+    @Column({type: 'text', array: true }, )
     tags: string[]
 
-    @Column({type: 'text', nullable: true})
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
     updateAt: string
 
     @Column({type: 'text'})
@@ -25,6 +25,6 @@ export class Tools {
     @JoinColumn({name: 'user_id'})
     user:User
 
-    @Column({type: 'text'})
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     createdAt: string
 }
